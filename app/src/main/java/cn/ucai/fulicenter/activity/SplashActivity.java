@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,22 +18,12 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        new Thread(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                long start = System.currentTimeMillis();
-                //Create db
-                long costTime = System.currentTimeMillis() - start;
-                if (sleepTime - costTime > 0) {
-                    try {
-                        Thread.sleep(sleepTime - costTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
                 MFGT.gotoMainActivity(SplashActivity.this);
-                MFGT.finish(SplashActivity.this);
+                finish();
             }
-        }).start();
+        },sleepTime);
     }
 }
