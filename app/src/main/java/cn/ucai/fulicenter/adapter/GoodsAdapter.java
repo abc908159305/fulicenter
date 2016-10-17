@@ -1,15 +1,15 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,32 +22,32 @@ import cn.ucai.fulicenter.utils.ImageLoader;
  * Created by Administrator on 2016/10/17.
  */
 public class GoodsAdapter extends Adapter<ViewHolder> {
-    List<NewGoodsBean> mlist;
+    ArrayList<NewGoodsBean> mlist;
     Context context;
 
     String FooterText;
 
-    public GoodsAdapter(List<NewGoodsBean> list, Context context) {
-        this.mlist = list;
+    public GoodsAdapter(Context context, ArrayList<NewGoodsBean> list) {
         this.context = context;
+        mlist = new ArrayList<>();
+        mlist.addAll(list);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder = null;
         if (viewType == I.TYPE_FOOTER) {
-            View inflate = View.inflate(context, R.layout.item_footer, null);
-            holder = new FooterViewHolder(inflate);
-        } else {
-            View inflate = View.inflate(context, R.layout.item_goods, null);
-            holder = new GoodsViewHolder(inflate);
+            holder = new FooterViewHolder(View.inflate(context,R.layout.item_footer,null));
+        }
+        if (viewType == I.TYPE_ITEM) {
+            holder = new GoodsViewHolder(View.inflate(context, R.layout.item_goods, null));
         }
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position == getItemCount() - 1) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        if (getItemViewType(position)==I.TYPE_FOOTER) {
             FooterViewHolder fv = (FooterViewHolder) holder;
             fv.tvFooter.setText(FooterText);
         } else {
@@ -69,9 +69,17 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
             return I.TYPE_FOOTER;
-        } else {
-            return I.TYPE_ITEM;
         }
+        return I.TYPE_ITEM;
+
+    }
+
+    public void initData(ArrayList<NewGoodsBean> list) {
+        if (mlist != null) {
+            mlist.clear();
+        }
+        mlist.addAll(list);
+        notifyDataSetChanged();
     }
 
     static class FooterViewHolder extends ViewHolder {

@@ -32,7 +32,7 @@ public class NewGoodsBean {
 
     private String goodsImg;
 
-    private int addTime;
+    private long addTime;
 
     private String shareUrl;
 
@@ -118,10 +118,10 @@ public class NewGoodsBean {
     public String getGoodsImg(){
         return this.goodsImg;
     }
-    public void setAddTime(int addTime){
+    public void setAddTime(long addTime){
         this.addTime = addTime;
     }
-    public int getAddTime(){
+    public long getAddTime(){
         return this.addTime;
     }
     public void setShareUrl(String shareUrl){

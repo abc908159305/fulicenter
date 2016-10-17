@@ -1,12 +1,12 @@
 package cn.ucai.fulicenter.fragment;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,8 @@ import cn.ucai.fulicenter.adapter.GoodsAdapter;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
+import cn.ucai.fulicenter.utils.ConvertUtils;
+import cn.ucai.fulicenter.utils.L;
 
 
 public class NewGoodsFragment extends Fragment {
@@ -32,6 +34,7 @@ public class NewGoodsFragment extends Fragment {
     @Bind(R.id.refresh)
     TextView mrefresh;
     @Bind(R.id.rv)
+
     RecyclerView mrv;
     MainActivity mContext;
     GoodsAdapter mAdapter;
@@ -45,9 +48,10 @@ public class NewGoodsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
-        mContext = (MainActivity) getContext();
-        mAdapter = new GoodsAdapter(mContext, mList);
         ButterKnife.bind(this, layout);
+        mContext = (MainActivity) getContext();
+        mList = new ArrayList<>();
+        mAdapter = new GoodsAdapter(mContext, mList);
         initView();
         initData();
         return layout;
@@ -57,12 +61,15 @@ public class NewGoodsFragment extends Fragment {
         NetDao.downloadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
-
+                if (result != null && result.length > 0) {
+                    ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
+                    mAdapter.initData(list);
+                }
             }
 
             @Override
             public void onError(String error) {
-
+                L.e("error"+error);
             }
         });
     }
