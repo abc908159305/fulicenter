@@ -13,11 +13,7 @@
         android:layout_height="60dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
-        <RadioGroup
-            android:id="@+id/rg_bottom_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/layout_new_good"
                 android:drawableTop="@drawable/selector_menu_item_new_good"
@@ -34,7 +30,7 @@
                 android:text="精品"
                 android:button="@null"
                 android:textColor="@color/main_botton_text_color"
-                android:checked="true"
+                android:checked="false"
                 />
             <RadioButton
                 android:id="@+id/layout_category"
@@ -43,7 +39,7 @@
                 android:text="分类"
                 android:button="@null"
                 android:textColor="@color/main_botton_text_color"
-                android:checked="true"
+                android:checked="false"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -86,8 +82,7 @@
                 android:text="个人中心"
                 android:button="@null"
                 android:textColor="@color/main_botton_text_color"
-                android:checked="true"
+                android:checked="false"
                 />
-        </RadioGroup>
     </LinearLayout>
 </RelativeLayout>
