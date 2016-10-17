@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.utils.ImageLoader;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -53,6 +54,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
             GoodsViewHolder gv = (GoodsViewHolder) holder;
             NewGoodsBean newGoodsBean = mlist.get(position);
             //图片
+            ImageLoader.downloadImg(context,gv.ivPicture, newGoodsBean.getGoodsThumb());
             gv.tvgoodsName.setText(newGoodsBean.getGoodsName());
             gv.tvCost.setText(newGoodsBean.getCurrencyPrice());
         }
