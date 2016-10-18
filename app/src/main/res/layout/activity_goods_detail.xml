@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/good_detail_bg"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -63,7 +65,7 @@
             />
     </RelativeLayout>
     <RelativeLayout
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_width="290dp"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal">
@@ -106,33 +108,37 @@
             android:textSize="20sp"/>
     </RelativeLayout>
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal">
         <cn.ucai.fulicenter.view.SlideAutoLoopView
-            android:id="@+id/slPicture"
+            android:id="@+id/salv"
             android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="220dp"
+            android:background="@color/good_detail_bg_white"/>
         <cn.ucai.fulicenter.view.FlowIndicator
-            android:id="@+id/fiCircle"
+            android:id="@+id/indicator"
             android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            count="4"
+            app:focus="0"
+            app:focus_color="@color/good_detaul_flow_indicator_focus"
+            app:normal_color="#a1d1d1d1"
+            app:r="5dp"
+            app:space="3dp"
+            />
     </LinearLayout>
-    <TextView
-        android:textColor="#000000"
-        android:id="@+id/tvDetails"
-        android:layout_marginTop="50dp"
-        android:layout_width="250dp"
-        android:textSize="18dp"
-        android:layout_gravity="center_horizontal"
+    <WebView
+        android:id="@+id/wv_good_brief"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="false"
-        android:text="@string/textline"
+        android:layout_marginTop="10dp"
+        android:background="@color/good_detail_bg_white"
         />
 
 </LinearLayout>

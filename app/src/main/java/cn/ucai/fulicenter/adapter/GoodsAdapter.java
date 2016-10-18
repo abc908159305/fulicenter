@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -20,6 +21,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.GoodsDetailActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -130,9 +132,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
         @OnClick(R.id.layout_goods)
         public void onGoodsItemClick() {
             int goodsId = (int) layoutGoods.getTag();
-            context.startActivity(new Intent(context, GoodsDetailActivity.class)
-                    .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));
-
+            MFGT.gotoGoodsDetailsActivity((Activity) context,goodsId);
         }
     }
 
