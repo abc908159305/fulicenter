@@ -1,20 +1,23 @@
 package cn.ucai.fulicenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.GoodsDetailActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 
@@ -46,7 +49,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder = null;
         if (viewType == I.TYPE_FOOTER) {
-            holder = new FooterViewHolder(View.inflate(context,R.layout.item_footer,null));
+            holder = new FooterViewHolder(View.inflate(context, R.layout.item_footer, null));
         }
         if (viewType == I.TYPE_ITEM) {
             holder = new GoodsViewHolder(View.inflate(context, R.layout.item_goods, null));
@@ -56,16 +59,17 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (getItemViewType(position)==I.TYPE_FOOTER) {
+        if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterViewHolder fv = (FooterViewHolder) holder;
             fv.tvFooter.setText(getFootString());
         } else {
             GoodsViewHolder gv = (GoodsViewHolder) holder;
             NewGoodsBean newGoodsBean = mlist.get(position);
             //图片
-            ImageLoader.downloadImg(context,gv.ivPicture, newGoodsBean.getGoodsThumb());
+            ImageLoader.downloadImg(context, gv.ivPicture, newGoodsBean.getGoodsThumb());
             gv.tvgoodsName.setText(newGoodsBean.getGoodsName());
             gv.tvCost.setText(newGoodsBean.getCurrencyPrice());
+            gv.layoutGoods.setTag(newGoodsBean.getGoodsId());
         }
     }
 
@@ -92,7 +96,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     }
 
     public int getFootString() {
-        return isMore?R.string.load_more:R.string.no_more;
+        return isMore ? R.string.load_more : R.string.no_more;
     }
 
     public void addData(ArrayList<NewGoodsBean> list) {
@@ -110,17 +114,26 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
         }
     }
 
-    static class GoodsViewHolder extends ViewHolder{
+    class GoodsViewHolder extends ViewHolder {
         @Bind(R.id.ivPicture)
         ImageView ivPicture;
         @Bind(R.id.tvgoodsName)
         TextView tvgoodsName;
         @Bind(R.id.tvCost)
         TextView tvCost;
-
+        @Bind(R.id.layout_goods)
+        LinearLayout layoutGoods;
         GoodsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
+        @OnClick(R.id.layout_goods)
+        public void onGoodsItemClick() {
+            int goodsId = (int) layoutGoods.getTag();
+            context.startActivity(new Intent(context, GoodsDetailActivity.class)
+                    .putExtra(I.GoodsDetails.KEY_GOODS_ID,goodsId));
+
+        }
     }
+
 }
