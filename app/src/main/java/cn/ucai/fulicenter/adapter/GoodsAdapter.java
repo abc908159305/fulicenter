@@ -95,6 +95,11 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
         return isMore?R.string.load_more:R.string.no_more;
     }
 
+    public void addData(ArrayList<NewGoodsBean> list) {
+        mlist.addAll(list);
+        notifyDataSetChanged();
+    }
+
     static class FooterViewHolder extends ViewHolder {
         @Bind(R.id.tvFooter)
         TextView tvFooter;
