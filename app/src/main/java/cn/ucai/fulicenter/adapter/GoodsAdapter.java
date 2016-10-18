@@ -25,7 +25,16 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     ArrayList<NewGoodsBean> mlist;
     Context context;
 
-    String FooterText;
+    boolean isMore;
+
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
+    }
 
     public GoodsAdapter(Context context, ArrayList<NewGoodsBean> list) {
         this.context = context;
@@ -49,7 +58,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (getItemViewType(position)==I.TYPE_FOOTER) {
             FooterViewHolder fv = (FooterViewHolder) holder;
-            fv.tvFooter.setText(FooterText);
+            fv.tvFooter.setText(getFootString());
         } else {
             GoodsViewHolder gv = (GoodsViewHolder) holder;
             NewGoodsBean newGoodsBean = mlist.get(position);
@@ -80,6 +89,10 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
         }
         mlist.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public int getFootString() {
+        return isMore?R.string.load_more:R.string.no_more;
     }
 
     static class FooterViewHolder extends ViewHolder {
