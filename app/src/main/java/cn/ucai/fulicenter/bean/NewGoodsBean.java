@@ -1,151 +1,196 @@
 package cn.ucai.fulicenter.bean;
 
-import java.util.List;
+import java.io.Serializable;
 
-/**
- * Created by Administrator on 2016/10/13.
- */
-public class NewGoodsBean {
+public class NewGoodsBean implements Serializable {
+
+    /**
+     * id : 1
+     * goodsId : 7672
+     * catId : 0
+     * goodsName : 趣味煮蛋模具
+     * goodsEnglishName : Kotobuki
+     * goodsBrief : 将煮好的鸡蛋…
+     * shopPrice : ￥110
+     * currencyPrice : ￥140
+     * promotePrice : ￥0
+     * rankPrice : ￥0
+     * promote : false
+     * goodsThumb : 201509/thumb_img/7672_thumb_G_14423845719.jpg
+     * goodsImg : 201509/goods_img/7672_P_1442389445199.jpg
+     * colorId : 4
+     * colorName : 绿色
+     * colorCode : #59d85c
+     * colorUrl : 1
+     * addTime : 1442389445    
+     */
+
     private int id;
-
     private int goodsId;
-
     private int catId;
-
     private String goodsName;
-
     private String goodsEnglishName;
-
     private String goodsBrief;
-
     private String shopPrice;
-
     private String currencyPrice;
-
     private String promotePrice;
-
     private String rankPrice;
-
     private boolean isPromote;
-
     private String goodsThumb;
-
     private String goodsImg;
+    private int colorId;
+    private String colorName;
+    private String colorCode;
+    private String colorUrl;
+    private String addTime;
 
-    private long addTime;
+    public int getId() {
+        return id;
+    }
 
-    private String shareUrl;
-
-    private List<PropertiesBean> properties ;
-
-    private boolean promote;
-
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
-    public int getId(){
-        return this.id;
+
+    public int getGoodsId() {
+        return goodsId;
     }
-    public void setGoodsId(int goodsId){
+
+    public void setGoodsId(int goodsId) {
         this.goodsId = goodsId;
     }
-    public int getGoodsId(){
-        return this.goodsId;
+
+    public int getCatId() {
+        return catId;
     }
-    public void setCatId(int catId){
+
+    public void setCatId(int catId) {
         this.catId = catId;
     }
-    public int getCatId(){
-        return this.catId;
+
+    public String getGoodsName() {
+        return goodsName;
     }
-    public void setGoodsName(String goodsName){
+
+    public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
     }
-    public String getGoodsName(){
-        return this.goodsName;
+
+    public String getGoodsEnglishName() {
+        return goodsEnglishName;
     }
-    public void setGoodsEnglishName(String goodsEnglishName){
+
+    public void setGoodsEnglishName(String goodsEnglishName) {
         this.goodsEnglishName = goodsEnglishName;
     }
-    public String getGoodsEnglishName(){
-        return this.goodsEnglishName;
+
+    public String getGoodsBrief() {
+        return goodsBrief;
     }
-    public void setGoodsBrief(String goodsBrief){
+
+    public void setGoodsBrief(String goodsBrief) {
         this.goodsBrief = goodsBrief;
     }
-    public String getGoodsBrief(){
-        return this.goodsBrief;
+
+    public String getShopPrice() {
+        return shopPrice;
     }
-    public void setShopPrice(String shopPrice){
+
+    public void setShopPrice(String shopPrice) {
         this.shopPrice = shopPrice;
     }
-    public String getShopPrice(){
-        return this.shopPrice;
+
+    public String getCurrencyPrice() {
+        return currencyPrice;
     }
-    public void setCurrencyPrice(String currencyPrice){
+
+    public void setCurrencyPrice(String currencyPrice) {
         this.currencyPrice = currencyPrice;
     }
-    public String getCurrencyPrice(){
-        return this.currencyPrice;
+
+    public String getPromotePrice() {
+        return promotePrice;
     }
-    public void setPromotePrice(String promotePrice){
+
+    public void setPromotePrice(String promotePrice) {
         this.promotePrice = promotePrice;
     }
-    public String getPromotePrice(){
-        return this.promotePrice;
+
+    public String getRankPrice() {
+        return rankPrice;
     }
-    public void setRankPrice(String rankPrice){
+
+    public void setRankPrice(String rankPrice) {
         this.rankPrice = rankPrice;
     }
-    public String getRankPrice(){
-        return this.rankPrice;
+
+    public boolean isPromote() {
+        return isPromote;
     }
-    public void setIsPromote(boolean isPromote){
-        this.isPromote = isPromote;
+
+    public void setPromote(boolean promote) {
+        this.isPromote = promote;
     }
-    public boolean getIsPromote(){
-        return this.isPromote;
+
+    public String getGoodsThumb() {
+        return goodsThumb;
     }
-    public void setGoodsThumb(String goodsThumb){
+
+    public void setGoodsThumb(String goodsThumb) {
         this.goodsThumb = goodsThumb;
     }
-    public String getGoodsThumb(){
-        return this.goodsThumb;
+
+    public String getGoodsImg() {
+        return goodsImg;
     }
-    public void setGoodsImg(String goodsImg){
+
+    public void setGoodsImg(String goodsImg) {
         this.goodsImg = goodsImg;
     }
-    public String getGoodsImg(){
-        return this.goodsImg;
+
+    public int getColorId() {
+        return colorId;
     }
-    public void setAddTime(long addTime){
+
+    public void setColorId(int colorId) {
+        this.colorId = colorId;
+    }
+
+    public String getColorName() {
+        return colorName;
+    }
+
+    public void setColorName(String colorName) {
+        this.colorName = colorName;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        this.colorCode = colorCode;
+    }
+
+    public String getColorUrl() {
+        return colorUrl;
+    }
+
+    public void setColorUrl(String colorUrl) {
+        this.colorUrl = colorUrl;
+    }
+
+    public String getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
-    }
-    public long getAddTime(){
-        return this.addTime;
-    }
-    public void setShareUrl(String shareUrl){
-        this.shareUrl = shareUrl;
-    }
-    public String getShareUrl(){
-        return this.shareUrl;
-    }
-    public void setProperties(List<PropertiesBean> properties){
-        this.properties = properties;
-    }
-    public List<PropertiesBean> getProperties(){
-        return this.properties;
-    }
-    public void setPromote(boolean promote){
-        this.promote = promote;
-    }
-    public boolean getPromote(){
-        return this.promote;
     }
 
     @Override
     public String toString() {
-        return "NewGoodsBean{" +
+        return "NewGoodBean{" +
                 "id=" + id +
                 ", goodsId=" + goodsId +
                 ", catId=" + catId +
@@ -156,13 +201,14 @@ public class NewGoodsBean {
                 ", currencyPrice='" + currencyPrice + '\'' +
                 ", promotePrice='" + promotePrice + '\'' +
                 ", rankPrice='" + rankPrice + '\'' +
-                ", isPromote=" + isPromote +
+                ", promote=" + isPromote +
                 ", goodsThumb='" + goodsThumb + '\'' +
                 ", goodsImg='" + goodsImg + '\'' +
-                ", addTime=" + addTime +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", properties=" + properties +
-                ", promote=" + promote +
+                ", colorId=" + colorId +
+                ", colorName='" + colorName + '\'' +
+                ", colorCode='" + colorCode + '\'' +
+                ", colorUrl='" + colorUrl + '\'' +
+                ", addTime='" + addTime + '\'' +
                 '}';
     }
 }
