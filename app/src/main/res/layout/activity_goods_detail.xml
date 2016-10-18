@@ -125,7 +125,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            count="4"
+            app:count="4"
             app:focus="0"
             app:focus_color="@color/good_detaul_flow_indicator_focus"
             app:normal_color="#a1d1d1d1"
