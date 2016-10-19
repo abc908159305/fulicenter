@@ -22,7 +22,7 @@ import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.view.FlowIndicator;
 import cn.ucai.fulicenter.view.SlideAutoLoopView;
 
-public class GoodsDetailActivity extends AppCompatActivity {
+public class GoodsDetailActivity extends BaseActivity{
 
     @Bind(R.id.ivBack)
     ImageView mivBack;
@@ -43,24 +43,24 @@ public class GoodsDetailActivity extends AppCompatActivity {
     int goodsId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
         goodsId = getIntent().getIntExtra(I.GoodsDetails.KEY_GOODS_ID, 0);
         if (goodsId == 0) {
             finish();
         }
-        initView();
+        super.onCreate(savedInstanceState);
+/*        initView();*/
         initData();
         setListener();
         L.e("details", "goodsid=" + goodsId);
     }
-
-    private void setListener() {
+    @Override
+    protected void setListener() {
 
     }
-
-    private void initData() {
+    @Override
+    protected void initData() {
         NetDao.downloadGoodsDetail(this, goodsId, new OkHttpUtils.OnCompleteListener<GoodsDetailsBean>() {
             @Override
             public void onSuccess(GoodsDetailsBean result) {
@@ -108,8 +108,8 @@ public class GoodsDetailActivity extends AppCompatActivity {
         }
         return urls;
     }
-
-    private void initView() {
+    @Override
+    protected void initView() {
         
     }
     @OnClick(R.id.ivBack)
