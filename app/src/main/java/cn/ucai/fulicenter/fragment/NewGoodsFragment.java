@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
 
-public class NewGoodsFragment extends Fragment {
+public class NewGoodsFragment extends BaseFragment {
 
     @Bind(R.id.srl)
     SwipeRefreshLayout msrl;
@@ -55,13 +54,14 @@ public class NewGoodsFragment extends Fragment {
         mContext = (MainActivity) getContext();
         mList = new ArrayList<>();
         mAdapter = new GoodsAdapter(mContext, mList);
-        initView();
+        super.onCreateView(inflater, container, savedInstanceState);
+/*        initView();
         initData();
-        Listener();
+        Listener();*/
         return layout;
     }
-
-    private void Listener() {
+    @Override
+    protected  void setListener() {
         setPullUpListener();
         setPullDownListener();
     }
@@ -133,12 +133,12 @@ public class NewGoodsFragment extends Fragment {
             }
         });
     }
-
-    private void initData() {
+    @Override
+    protected void initData() {
         downloadNewGoods(I.ACTION_DOWNLOAD);
     }
-
-    private void initView() {
+    @Override
+    protected void initView() {
         msrl.setColorSchemeColors(
                     getResources().getColor(R.color.google_blue),
                     getResources().getColor(R.color.google_green),
