@@ -22,6 +22,7 @@ import cn.ucai.fulicenter.activity.GoodsDetailActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.view.FooterViewHolder;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -106,15 +107,6 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
         notifyDataSetChanged();
     }
 
-    static class FooterViewHolder extends ViewHolder {
-        @Bind(R.id.tvFooter)
-        TextView tvFooter;
-
-        FooterViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
 
     class GoodsViewHolder extends ViewHolder {
         @Bind(R.id.ivPicture)
