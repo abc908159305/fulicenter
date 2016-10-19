@@ -35,8 +35,8 @@ public class NewGoodsFragment extends BaseFragment {
     @Bind(R.id.refresh)
     TextView mrefresh;
     @Bind(R.id.rv)
-
     RecyclerView mrv;
+
     MainActivity mContext;
     GoodsAdapter mAdapter;
     ArrayList<NewGoodsBean> mList;
@@ -79,7 +79,7 @@ public class NewGoodsFragment extends BaseFragment {
     }
 
     private void downloadNewGoods(final int action) {
-        NetDao.downloadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+        NetDao.downloadNewGoods(mContext,I.CAT_ID, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
                 if (result != null && result.length > 0) {

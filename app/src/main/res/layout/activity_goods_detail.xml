@@ -25,44 +25,7 @@
             android:layout_marginLeft="8dp"
             android:textColor="#ffffff"
             />
-        <ImageView
-            android:id="@+id/ivCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/bg_cart_selected"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="70dp"
-            android:layout_alignParentRight="true"
-            />
-        <TextView
-            android:id="@+id/tvCartHint"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignRight="@id/ivCart"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/cart_hint"
-            android:gravity="center"
-            android:text="8"
-            android:textColor="@color/white"
-            />
-        <ImageView
-            android:id="@+id/ivCollect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/bg_collect_in"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:layout_alignParentRight="true"
-            />
-        <ImageView
-            android:id="@+id/ivShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/bg_share_nor"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            />
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_marginTop="20dp"
