@@ -104,7 +104,7 @@ public class BoutiqueFragment extends Fragment {
                 getResources().getColor(R.color.google_red),
                 getResources().getColor(R.color.google_green)
         );
-        llm = new GridLayoutManager(mContext, I.COLUM_NUM);
+        llm = new LinearLayoutManager(mContext);
         mrv.setLayoutManager(llm);
         mrv.setHasFixedSize(true);
         mrv.setAdapter(mAdapter);
