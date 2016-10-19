@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
@@ -58,33 +56,38 @@ public class BoutiqueFragment extends Fragment {
         mAdapter = new BoutiqueAdapter(mContext, mList);
         initView();
         initData();
+        Listener();
         return inflate;
+    }
+    private void Listener() {
+        setPullDownListener();
+    }
+
+    private void setPullDownListener() {
+        msrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                msrl.setRefreshing(true);
+                mrefresh.setVisibility(View.VISIBLE);
+                downloadBoutique();
+            }
+        });
     }
 
     private void initData() {
-        downloadBoutique(I.ACTION_DOWNLOAD);
+        downloadBoutique();
     }
 
-    private void downloadBoutique(final int action) {
+    private void downloadBoutique() {
         NetDao.downloadBoutique(mContext, new OkHttpUtils.OnCompleteListener<BoutiqueBean[]>() {
             @Override
             public void onSuccess(BoutiqueBean[] result) {
                     msrl.setRefreshing(false);
                     mrefresh.setVisibility(View.GONE);
-                    mAdapter.setMore(true);
                     L.e("result="+result);
                     if (result != null && result.length > 0) {
                         ArrayList<BoutiqueBean> list = ConvertUtils.array2List(result);
-                        if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
-                            mAdapter.initData(list);
-                        } else {
-                            mAdapter.addData(list);
-                        }
-                        if (list.size() < I.PAGE_SIZE_DEFAULT) {
-                            mAdapter.setMore(false);
-                        }
-                    }else {
-                        mAdapter.setMore(false);
+                        mAdapter.initData(list);
                     }
                 }
             @Override
