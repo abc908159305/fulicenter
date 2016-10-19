@@ -80,7 +80,17 @@ public class BoutiqueChildActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-
+        setPullDownListener();
+    }
+    private void setPullDownListener() {
+        msrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                msrl.setRefreshing(true);
+                mrefresh.setVisibility(View.VISIBLE);
+                downloadNewGoods(I.ACTION_DOWNLOAD);
+            }
+        });
     }
     private void downloadNewGoods(final int action) {
         NetDao.downloadNewGoods(mContext,boutique.getId(), pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
