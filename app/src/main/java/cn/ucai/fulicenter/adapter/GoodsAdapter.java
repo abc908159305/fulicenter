@@ -2,7 +2,6 @@ package cn.ucai.fulicenter.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
@@ -12,13 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.GoodsDetailActivity;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.MFGT;
@@ -28,10 +28,17 @@ import cn.ucai.fulicenter.view.FooterViewHolder;
  * Created by Administrator on 2016/10/17.
  */
 public class GoodsAdapter extends Adapter<ViewHolder> {
-    ArrayList<NewGoodsBean> mlist;
-    Context context;
+    ArrayList<NewGoodsBean> mList;
+    Context mContext;
 
     boolean isMore;
+    int soryBy = I.SORT_BY_ADDTIME_DESC;//默认按时间倒序
+
+    public void setSoryBy(int soryBy) {
+        this.soryBy = soryBy;
+        sortBy();
+        notifyDataSetChanged();
+    }
 
     public boolean isMore() {
         return isMore;
@@ -43,19 +50,19 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     }
 
     public GoodsAdapter(Context context, ArrayList<NewGoodsBean> list) {
-        this.context = context;
-        mlist = new ArrayList<>();
-        mlist.addAll(list);
+        this.mContext = context;
+        mList = new ArrayList<>();
+        mList.addAll(list);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder = null;
         if (viewType == I.TYPE_FOOTER) {
-            holder = new FooterViewHolder(View.inflate(context, R.layout.item_footer, null));
+            holder = new FooterViewHolder(View.inflate(mContext, R.layout.item_footer, null));
         }
         if (viewType == I.TYPE_ITEM) {
-            holder = new GoodsViewHolder(View.inflate(context, R.layout.item_goods, null));
+            holder = new GoodsViewHolder(View.inflate(mContext, R.layout.item_goods, null));
         }
         return holder;
     }
@@ -67,9 +74,9 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
             fv.tvFooter.setText(getFootString());
         } else {
             GoodsViewHolder gv = (GoodsViewHolder) holder;
-            NewGoodsBean newGoodsBean = mlist.get(position);
+            NewGoodsBean newGoodsBean = mList.get(position);
             //图片
-            ImageLoader.downloadImg(context, gv.ivPicture, newGoodsBean.getGoodsThumb());
+            ImageLoader.downloadImg(mContext, gv.ivPicture, newGoodsBean.getGoodsThumb());
             gv.tvgoodsName.setText(newGoodsBean.getGoodsName());
             gv.tvCost.setText(newGoodsBean.getCurrencyPrice());
             gv.layoutGoods.setTag(newGoodsBean.getGoodsId());
@@ -78,7 +85,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mlist != null ? mlist.size() + 1 : 1;
+        return mList != null ? mList.size() + 1 : 1;
     }
 
     @Override
@@ -91,10 +98,10 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     }
 
     public void initData(ArrayList<NewGoodsBean> list) {
-        if (mlist != null) {
-            mlist.clear();
+        if (mList != null) {
+            mList.clear();
         }
-        mlist.addAll(list);
+        mList.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -103,7 +110,7 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
     }
 
     public void addData(ArrayList<NewGoodsBean> list) {
-        mlist.addAll(list);
+        mList.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -124,8 +131,35 @@ public class GoodsAdapter extends Adapter<ViewHolder> {
         @OnClick(R.id.layout_goods)
         public void onGoodsItemClick() {
             int goodsId = (int) layoutGoods.getTag();
-            MFGT.gotoGoodsDetailsActivity((Activity) context,goodsId);
+            MFGT.gotoGoodsDetailsActivity((Activity) mContext,goodsId);
         }
+    }
+    private void sortBy() {
+        Collections.sort(mList, new Comparator<NewGoodsBean>() {
+            @Override
+            public int compare(NewGoodsBean left, NewGoodsBean right) {
+                int result = 0;
+                switch (soryBy) {
+                    case I.SORT_BY_ADDTIME_ASC:
+                        result = (int) (Long.valueOf(left.getAddTime())-Long.valueOf(right.getAddTime()));
+                        break;
+                    case I.SORT_BY_ADDTIME_DESC:
+                        result = (int) (Long.valueOf(right.getAddTime())-Long.valueOf(left.getAddTime()));
+                        break;
+                    case I.SORT_BY_PRICE_ASC:
+                        result = getPrice(left.getCurrencyPrice())-getPrice(right.getCurrencyPrice());
+                        break;
+                    case I.SORT_BY_PRICE_DESC:
+                        result = getPrice(right.getCurrencyPrice())-getPrice(left.getCurrencyPrice());
+                        break;
+                }
+                return result;
+            }
+            private int getPrice(String price) {
+                price = price.substring(price.indexOf("￥") + 1);
+                return Integer.valueOf(price);
+            }
+        });
     }
 
 }
