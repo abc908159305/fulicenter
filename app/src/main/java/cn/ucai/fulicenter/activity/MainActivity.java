@@ -10,6 +10,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.fragment.BoutiqueFragment;
+import cn.ucai.fulicenter.fragment.CategoryFragment;
 import cn.ucai.fulicenter.fragment.NewGoodsFragment;
 
 public class MainActivity extends BaseActivity {
@@ -31,7 +32,9 @@ public class MainActivity extends BaseActivity {
     RadioButton rbs[];
     Fragment[] mFragment;
     NewGoodsFragment mNewGoodsFragment;
+    CategoryFragment mCategoryFragment;
     Fragment mBoutiqueFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +48,17 @@ public class MainActivity extends BaseActivity {
         mFragment = new Fragment[5];
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
+        mCategoryFragment = new CategoryFragment();
         mFragment[0] = mNewGoodsFragment;
         mFragment[1] = mBoutiqueFragment;
+        mFragment[2] = mCategoryFragment;
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container,mBoutiqueFragment)
-                .add(R.id.fragment_container,mNewGoodsFragment)
+                .add(R.id.fragment_container, mBoutiqueFragment)
+                .add(R.id.fragment_container, mNewGoodsFragment)
+                .add(R.id.fragment_container, mCategoryFragment)
                 .hide(mBoutiqueFragment)
+                .hide(mCategoryFragment)
                 .show(mNewGoodsFragment)
                 .commit();
     }

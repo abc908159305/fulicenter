@@ -77,7 +77,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupViewHolder holder = null;
-        if (convertView != null) {
+        if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.item_category_group, null);
             holder = new GroupViewHolder(convertView);
             convertView.setTag(holder);
@@ -115,6 +115,18 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    public void initData(ArrayList<CategoryGroupBean> GroupList, ArrayList<ArrayList<CategoryChildBean>> ChildList) {
+        if (mGroupList != null) {
+            mGroupList.clear();
+        }
+        mGroupList.addAll(GroupList);
+        if (mChildList!=null) {
+            mChildList.clear();
+        }
+        mChildList.addAll(ChildList);
+        notifyDataSetChanged();
     }
 
     class GroupViewHolder {
