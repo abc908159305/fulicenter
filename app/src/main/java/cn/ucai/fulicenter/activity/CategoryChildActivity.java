@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,7 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.adapter.GoodsAdapter;
+import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
@@ -23,12 +25,11 @@ import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ConvertUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.view.CatChildFilterButton;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
-public class CategoryActivity extends BaseActivity {
+public class CategoryChildActivity extends BaseActivity {
 
-    @Bind(R.id.tvTitle)
-    TextView mtvTitle;
     @Bind(R.id.refresh)
     TextView mrefresh;
     @Bind(R.id.rv)
@@ -36,7 +37,7 @@ public class CategoryActivity extends BaseActivity {
     @Bind(R.id.srl)
     SwipeRefreshLayout msrl;
 
-    CategoryActivity mContext;
+    CategoryChildActivity mContext;
     GoodsAdapter mAdapter;
     ArrayList<NewGoodsBean> mList;
     GridLayoutManager glm;
@@ -45,20 +46,26 @@ public class CategoryActivity extends BaseActivity {
     int sortBy = I.SORT_BY_ADDTIME_DESC;
     boolean addTimeAsc = false;
     boolean priceAsc = false;
+    String groupName;
+    ArrayList<CategoryChildBean> mChildList;
     @Bind(R.id.btn_sort_price)
     Button mbtnSortPrice;
     @Bind(R.id.btn_sort_addtime)
     Button mbtnSortAddtime;
+    @Bind(R.id.btnCatChildFilter)
+    CatChildFilterButton mbtnCatChildFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.layout_category_child);
         ButterKnife.bind(this);
         catId = getIntent().getIntExtra(I.CategoryChild.CAT_ID, 0);
         if (catId == 0) {
             finish();
         }
+        groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        mChildList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
         mContext = this;
         mList = new ArrayList<>();
         mAdapter = new GoodsAdapter(mContext, mList);
@@ -78,11 +85,13 @@ public class CategoryActivity extends BaseActivity {
         mrv.setHasFixedSize(true);
         mrv.setAdapter(mAdapter);
         mrv.addItemDecoration(new SpaceItemDecoration(12));
+        mbtnCatChildFilter.setText(groupName);
     }
 
     @Override
     protected void initData() {
         downloadCategoryGoods(I.ACTION_DOWNLOAD);
+        mbtnCatChildFilter.setOnCatFilterClickListener(groupName,mChildList);
     }
 
     @Override
@@ -143,21 +152,30 @@ public class CategoryActivity extends BaseActivity {
 
     @OnClick({R.id.btn_sort_price, R.id.btn_sort_addtime})
     public void onClick(View view) {
+        Drawable right;
         switch (view.getId()) {
             case R.id.btn_sort_price:
                 if (priceAsc) {
                     sortBy = I.SORT_BY_PRICE_ASC;
+                    right = getResources().getDrawable(R.mipmap.arrow_order_up);
                 } else {
-                    sortBy  =I.SORT_BY_PRICE_DESC;
+                    sortBy = I.SORT_BY_PRICE_DESC;
+                    right = getResources().getDrawable(R.mipmap.arrow_order_down);
                 }
+                right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicWidth());
+                mbtnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
                 priceAsc = !priceAsc;
                 break;
             case R.id.btn_sort_addtime:
                 if (addTimeAsc) {
                     sortBy = I.SORT_BY_ADDTIME_ASC;
+                    right = getResources().getDrawable(R.mipmap.arrow_order_up);
                 } else {
                     sortBy = I.SORT_BY_ADDTIME_DESC;
+                    right = getResources().getDrawable(R.mipmap.arrow_order_down);
                 }
+                right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicWidth());
+                mbtnSortPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, right, null);
                 addTimeAsc = !addTimeAsc;
                 break;
         }
