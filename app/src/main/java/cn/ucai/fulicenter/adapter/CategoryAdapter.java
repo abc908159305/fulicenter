@@ -1,10 +1,12 @@
 package cn.ucai.fulicenter.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.MFGT;
 
 /**
  * Created by Administrator on 2016/10/20.
@@ -98,15 +101,21 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ChildViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.item_category_chile, null);
+            convertView = View.inflate(mContext, R.layout.item_category_child, null);
             holder = new ChildViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
-            CategoryChildBean child = getChild(groupPosition, childPosition);
+            final CategoryChildBean child = getChild(groupPosition, childPosition);
             if (child != null) {
-                ImageLoader.downloadImg(mContext,holder.mivCategoryChildThumb,child.getImageUrl());
+                ImageLoader.downloadImg(mContext, holder.mivCategoryChildThumb, child.getImageUrl());
                 holder.mtvCategoryChildName.setText(child.getName());
+                holder.mLayoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MFGT.gotoCategoryActivity((Activity) mContext, child.getId());
+                    }
+                });
             }
         }
         return convertView;
@@ -122,7 +131,7 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
             mGroupList.clear();
         }
         mGroupList.addAll(GroupList);
-        if (mChildList!=null) {
+        if (mChildList != null) {
             mChildList.clear();
         }
         mChildList.addAll(ChildList);
@@ -142,11 +151,14 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         }
     }
 
+
     static class ChildViewHolder {
         @Bind(R.id.iv_category_child_thumb)
         ImageView mivCategoryChildThumb;
         @Bind(R.id.tv_category_child_name)
         TextView mtvCategoryChildName;
+        @Bind(R.id.LayoutCategoryChild)
+        RelativeLayout mLayoutCategoryChild;
 
         ChildViewHolder(View view) {
             ButterKnife.bind(this, view);
