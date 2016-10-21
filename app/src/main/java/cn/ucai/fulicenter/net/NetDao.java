@@ -69,7 +69,7 @@ public class NetDao {
         OkHttpUtils<Result> utils = new OkHttpUtils(context);
         utils.setRequestUrl(I.REQUEST_LOGIN)
                 .addParam(I.User.USER_NAME,userName)
-                .addParam(I.User.PASSWORD,userPwd)
+                .addParam(I.User.PASSWORD,MD5.getMessageDigest(userPwd))
                 .targetClass(Result.class)
                 .execute(listener);
     }

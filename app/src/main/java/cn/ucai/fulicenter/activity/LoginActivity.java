@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
@@ -84,13 +85,20 @@ public class LoginActivity extends BaseActivity {
                         L.e("登陆返回："+result.toString());
                         pd.dismiss();
                         if (result == null) {
-                            CommonUtils.showShortToast("注册失败");
-                        } else if (result.getRetCode()==401) {//账户不存在
-                            CommonUtils.showShortToast("账户不存在");
-                        } else if (result.getRetCode()==402) {//账户密码错误
-                            CommonUtils.showShortToast("账户密码错误");
-                        } else if (result.getRetCode()==403) {//登陆成功
-                            CommonUtils.showShortToast("登陆成功");
+                            CommonUtils.showShortToast("登陆失败");
+                        }else {
+                            if (result.isRetMsg()) {
+                                //User user = (User) result.getRetData();
+                                MFGT.finish((Activity) mContext);
+                            } else {
+                                if (result.getRetCode()==401) {//账户不存在
+                                    CommonUtils.showLongToast("账户不存在");
+                                } else if (result.getRetCode()==402) {//账户密码错误
+                                    CommonUtils.showLongToast("账户密码错误");
+                                } else if (result.getRetCode()==403) {//登陆成功
+                                    CommonUtils.showLongToast("登陆成功");
+                                }
+                            }
                         }
                     }
 
@@ -98,6 +106,7 @@ public class LoginActivity extends BaseActivity {
                     public void onError(String error) {
                         pd.dismiss();
                         L.e("登陆="+error);
+                        CommonUtils.showLongToast("登陆失败");
                     }
                 });
                 break;
