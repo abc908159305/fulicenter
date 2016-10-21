@@ -24,6 +24,7 @@ import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.utils.ResultUtils;
 
 public class LoginActivity extends BaseActivity {
 
@@ -88,7 +89,9 @@ public class LoginActivity extends BaseActivity {
                             CommonUtils.showShortToast("登陆失败");
                         }else {
                             if (result.isRetMsg()) {
-                                //User user = (User) result.getRetData();
+                                //取得用户数据
+
+
                                 MFGT.finish((Activity) mContext);
                             } else {
                                 if (result.getRetCode()==401) {//账户不存在
