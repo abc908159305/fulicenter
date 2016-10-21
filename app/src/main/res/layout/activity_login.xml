@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cecbcb"
+    android:orientation="vertical">
+    <include layout="@layout/dock_system"/>
+    <RelativeLayout
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/Login_edName"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textSize="20dp"
+            android:background="#ffffff"
+            android:hint="用户名"
+            android:paddingLeft="15dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_account"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/Login_edPwd"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textSize="20dp"
+            android:background="#ffffff"
+            android:hint="密码"
+            android:paddingLeft="15dp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_pwd"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#d14e1a"
+        android:text="登 录"
+        android:textSize="23dp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="28dp"
+        />
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="18dp"
+        android:background="#de6880"
+        android:text="注 册"
+        android:textSize="23dp"
+        android:textColor="#ffffff"
+        />
+
+</LinearLayout>
