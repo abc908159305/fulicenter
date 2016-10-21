@@ -8,6 +8,8 @@ import cn.ucai.fulicenter.bean.CategoryChildBean;
 import cn.ucai.fulicenter.bean.CategoryGroupBean;
 import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.bean.Result;
+import cn.ucai.fulicenter.utils.MD5;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -62,4 +64,25 @@ public class NetDao {
                 .targetClass(NewGoodsBean[].class)
                 .execute(listener);
     }
+    public static void login(Context context,String userName, String userPwd,
+                             OkHttpUtils.OnCompleteListener<Result> listener) {
+        OkHttpUtils<Result> utils = new OkHttpUtils(context);
+        utils.setRequestUrl(I.REQUEST_LOGIN)
+                .addParam(I.User.USER_NAME,userName)
+                .addParam(I.User.PASSWORD,userPwd)
+                .targetClass(Result.class)
+                .execute(listener);
+    }
+    public static void register(Context context,String userName,String userNick,String userPwd,
+                             OkHttpUtils.OnCompleteListener<Result> listener) {
+        OkHttpUtils<Result> utils = new OkHttpUtils(context);
+        utils.setRequestUrl(I.REQUEST_REGISTER)
+                .addParam(I.User.USER_NAME,userName)
+                .addParam(I.User.NICK,userNick)
+                .addParam(I.User.PASSWORD, MD5.getMessageDigest(userPwd))
+                .targetClass(Result.class)
+                .post()
+                .execute(listener);
+    }
+
 }
