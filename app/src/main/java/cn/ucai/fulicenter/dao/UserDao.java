@@ -18,7 +18,7 @@ public class UserDao {
     public static final String USER_COLUMN_AVATAR_LASTUDATE_TIME = "m_user_avatar_lastupdate_time";
     DBManager dbManager;
     public UserDao(Context context) {
-        DBManager dbManager = DBManager.onInit(context);
+        DBManager.getInstance().onInit(context);
     }
     public boolean saveUser(User user) {
         return dbManager.saveUser(user);
