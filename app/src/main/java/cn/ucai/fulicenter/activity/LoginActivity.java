@@ -15,10 +15,12 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
+import cn.ucai.fulicenter.dao.UserDao;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
@@ -90,9 +92,16 @@ public class LoginActivity extends BaseActivity {
                         }else {
                             if (result.isRetMsg()) {
                                 //取得用户数据
-
-
-                                MFGT.finish((Activity) mContext);
+                                User user = (User) result.getRetData();
+                                UserDao dao = new UserDao(mContext);
+                                dao.saveUser(user);
+                                boolean isSuccess = dao.saveUser(user);
+                                if (isSuccess) {
+                                    FuLiCenterApplication.setUser(user);
+                                    MFGT.finish((Activity) mContext);
+                                } else {
+                                    CommonUtils.showLongToast(R.string.user_datebase_error);
+                                }
                             } else {
                                 if (result.getRetCode()==401) {//账户不存在
                                     CommonUtils.showLongToast("账户不存在");
