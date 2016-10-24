@@ -80,10 +80,10 @@ public class LoginActivity extends BaseActivity {
 /*                int MSG_LOGIN_UNKNOW_USER=401;//账户不存在
                 int MSG_LOGIN_ERROR_PASSWORD=402;//账户密码错误
                 int MSG_LOGIN_SUCCESS=403;//登陆成功*/
-                NetDao.login(mContext, userName, userPwd, new OkHttpUtils.OnCompleteListener<Result>() {
+                NetDao.login(mContext, userName, userPwd, new OkHttpUtils.OnCompleteListener<String>() {
                     @Override
-                    public void onSuccess(Result result) {
-                        L.e("登陆返回："+result.toString());
+                    public void onSuccess(String s) {
+                        Result result = ResultUtils.getResultFromJson(s, User.class);
                         pd.dismiss();
                         if (result == null) {
                             CommonUtils.showShortToast("登陆失败");
