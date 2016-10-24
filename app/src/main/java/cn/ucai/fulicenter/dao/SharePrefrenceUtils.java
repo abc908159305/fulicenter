@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  * Created by Administrator on 2016/10/24.
  */
 public class SharePrefrenceUtils {
-    private static final String SHARE_NAME = "savaUserInfo";
+    private static final String SHARE_NAME = "saveUserInfo";
     private static final String SHARE_KEY_USER_NAME = "share_key_user_name";
     private static SharePrefrenceUtils instance;
     private SharedPreferences mSharedPreferences;
@@ -25,6 +25,7 @@ public class SharePrefrenceUtils {
     }
     public void saveUser(String username) {
         mEditor.putString(SHARE_KEY_USER_NAME, username);
+        mEditor.commit();
     }
     public String getUser() {
         return mSharedPreferences.getString(SHARE_KEY_USER_NAME, null);

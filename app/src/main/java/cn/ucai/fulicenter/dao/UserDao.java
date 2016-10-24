@@ -15,19 +15,18 @@ public class UserDao {
     public static final String USER_COLUMN_AVATAR_TYPE = "m_user_avatar_type";
     public static final String USER_COLUMN_AVATAR_PATH = "m_user_avatar_path";
     public static final String USER_COLUMN_AVATAR_SUFFIX = "m_user_avatar_suffix";
-    public static final String USER_COLUMN_AVATAR_LASTUDATE_TIME = "m_user_avatar_lastupdate_time";
-    DBManager dbManager;
+    public static final String USER_COLUMN_AVATAR_LASTUPDATE_TIME = "m_user_avatar_lastupdate_time";
     public UserDao(Context context) {
         DBManager.getInstance().onInit(context);
     }
     public boolean saveUser(User user) {
-        return dbManager.saveUser(user);
+        return DBManager.getInstance().saveUser(user);
     }
     public User getUser(String username) {
-        return dbManager.getUser(username);
+        return DBManager.getInstance().getUser(username);
     }
     public boolean updateUser(User user) {
-        return dbManager.updateUser(user);
+        return DBManager.getInstance().updateUser(user);
     }
 
 }

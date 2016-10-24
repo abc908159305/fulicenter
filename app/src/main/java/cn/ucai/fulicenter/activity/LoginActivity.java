@@ -2,7 +2,6 @@ package cn.ucai.fulicenter.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +42,7 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.btnRegister)
     Button mbtnRegister;
 
-    Context mContext;
+    LoginActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,27 +78,23 @@ public class LoginActivity extends BaseActivity {
                 final ProgressDialog pd = new ProgressDialog(mContext);
                 pd.setMessage("登陆中");
                 pd.show();
-/*                int MSG_LOGIN_UNKNOW_USER=401;//账户不存在
-                int MSG_LOGIN_ERROR_PASSWORD=402;//账户密码错误
-                int MSG_LOGIN_SUCCESS=403;//登陆成功*/
                 NetDao.login(mContext, userName, userPwd, new OkHttpUtils.OnCompleteListener<String>() {
                     @Override
                     public void onSuccess(String s) {
-                        Result result = ResultUtils.getResultFromJson(s, User.class);
                         pd.dismiss();
+                        Result result = ResultUtils.getResultFromJson(s, User.class);
                         if (result == null) {
-                            CommonUtils.showShortToast("登陆失败");
+
                         }else {
                             if (result.isRetMsg()) {
-                                //取得用户数据
                                 User user = (User) result.getRetData();
+                                CommonUtils.showShortToast(R.string.login_success);
                                 UserDao dao = new UserDao(mContext);
-                                dao.saveUser(user);
                                 boolean isSuccess = dao.saveUser(user);
                                 if (isSuccess) {
                                     SharePrefrenceUtils.getInstence(mContext).saveUser(user.getMuserName());
                                     FuLiCenterApplication.setUser(user);
-                                    MFGT.finish((Activity) mContext);
+                                    MFGT.finish(mContext);
                                 } else {
                                     CommonUtils.showLongToast(R.string.user_datebase_error);
                                 }

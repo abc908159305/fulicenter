@@ -20,7 +20,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
             + UserDao.USER_COLUMN_AVATAR_TYPE + " TEXT, "
             + UserDao.USER_COLUMN_AVATAR_PATH + " TEXT, "
             + UserDao.USER_COLUMN_AVATAR_SUFFIX + " TEXT, "
-            + UserDao.USER_COLUMN_AVATAR_LASTUDATE_TIME + " TEXT);";
+            + UserDao.USER_COLUMN_AVATAR_LASTUPDATE_TIME + " TEXT);";
 
     public static DBOpenHelper getInstance(Context context) {
         if (instance == null) {

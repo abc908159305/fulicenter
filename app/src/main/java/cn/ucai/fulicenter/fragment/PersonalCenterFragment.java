@@ -2,22 +2,39 @@ package cn.ucai.fulicenter.fragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.BaseActivity;
+import cn.ucai.fulicenter.activity.MainActivity;
+import cn.ucai.fulicenter.bean.User;
+import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.utils.MFGT;
 
 
 public class PersonalCenterFragment extends BaseFragment {
+    private static final String TAG = "PersonalCenterFragment.class.getSimpleName()";
+    MainActivity mContext;
+    @Bind(R.id.ivPicture)
+    ImageView mivPicture;
+    @Bind(R.id.tvUserName)
+    TextView mtvUserName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_personal_center, container, false);
+        mContext = (MainActivity) getActivity();
         super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, layout);
         return layout;
     }
 
@@ -28,7 +45,14 @@ public class PersonalCenterFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        User user = FuLiCenterApplication.getUser();
+        L.e(TAG,"user = "+user);
+        if (user == null) {
+            MFGT.gotoLogin(mContext);
+        } else {
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivPicture);
+            mtvUserName.setText(user.getMuserNick());
+        }
     }
 
     @Override
@@ -36,4 +60,13 @@ public class PersonalCenterFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.tvSetting)
+    public void onClick() {
+    }
 }

@@ -6,13 +6,13 @@ package cn.ucai.fulicenter.bean;
 public class User {
 
     /**
-     * muserName : a952700
-     * muserNick : 士大夫
-     * mavatarId : 72
+     * muserName : a952702
+     * muserNick : 彭鹏
+     * mavatarId : 74
      * mavatarPath : user_avatar
      * mavatarSuffix : .jpg
      * mavatarType : 0
-     * mavatarLastUpdateTime : 1476262984280
+     * mavatarLastUpdateTime : 1476285149669
      */
 
     private String muserName;
@@ -22,6 +22,19 @@ public class User {
     private String mavatarSuffix;
     private int mavatarType;
     private String mavatarLastUpdateTime;
+
+    public User() {
+    }
+
+    public User(String muserName, String muserNick, int mavatarId, String mavatarPath, String mavatarSuffix, int mavatarType, String mavatarLastUpdateTime) {
+        this.muserName = muserName;
+        this.muserNick = muserNick;
+        this.mavatarId = mavatarId;
+        this.mavatarPath = mavatarPath;
+        this.mavatarSuffix = mavatarSuffix;
+        this.mavatarType = mavatarType;
+        this.mavatarLastUpdateTime = mavatarLastUpdateTime;
+    }
 
     public String getMuserName() {
         return muserName;
@@ -77,5 +90,18 @@ public class User {
 
     public void setMavatarLastUpdateTime(String mavatarLastUpdateTime) {
         this.mavatarLastUpdateTime = mavatarLastUpdateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAvatar{" +
+                "muserName='" + muserName + '\'' +
+                ", muserNick='" + muserNick + '\'' +
+                ", mavatarId=" + mavatarId +
+                ", mavatarPath='" + mavatarPath + '\'' +
+                ", mavatarSuffix='" + mavatarSuffix + '\'' +
+                ", mavatarType=" + mavatarType +
+                ", mavatarLastUpdateTime='" + mavatarLastUpdateTime + '\'' +
+                '}';
     }
 }

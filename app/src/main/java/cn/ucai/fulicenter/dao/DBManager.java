@@ -12,63 +12,71 @@ import cn.ucai.fulicenter.bean.User;
  */
 public class DBManager {
     private static DBManager dbMgr = new DBManager();
-    private static DBOpenHelper dbHepler;
+    private DBOpenHelper mHelper;
 
-    void onInit(Context context) {
-        dbHepler = new DBOpenHelper(context);
-    }
     public static synchronized DBManager getInstance() {
         return dbMgr;
     }
 
+    void onInit(Context mContext) {
+        mHelper = new DBOpenHelper(mContext);
+    }
+
     public synchronized void closeDB() {
-        if (dbHepler != null) {
-            dbHepler.closeDB();
+        if (mHelper != null) {
+            mHelper.closeDB();
         }
     }
-    public boolean saveUser(User user) {
-        SQLiteDatabase db = dbHepler.getWritableDatabase();
+
+    public synchronized boolean saveUser(User user) {
+
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(UserDao.USER_COLUMN_NAME,user.getMuserName());
-        values.put(UserDao.USER_COLUMN_NICK,user.getMuserNick());
-        values.put(UserDao.USER_COLUMN_AVATAR_ID,user.getMavatarId());
-        values.put(UserDao.USER_COLUMN_AVATAR_TYPE,user.getMavatarType());
-        values.put(UserDao.USER_COLUMN_AVATAR_PATH,user.getMavatarPath());
-        values.put(UserDao.USER_COLUMN_AVATAR_SUFFIX,user.getMavatarSuffix());
-        values.put(UserDao.USER_COLUMN_AVATAR_LASTUDATE_TIME,user.getMavatarLastUpdateTime());
+        values.put(UserDao.USER_COLUMN_NAME, user.getMuserName());
+        values.put(UserDao.USER_COLUMN_NICK, user.getMuserNick());
+        values.put(UserDao.USER_COLUMN_AVATAR_ID, user.getMavatarId());
+        values.put(UserDao.USER_COLUMN_AVATAR_TYPE, user.getMavatarType());
+        values.put(UserDao.USER_COLUMN_AVATAR_PATH, user.getMavatarPath());
+        values.put(UserDao.USER_COLUMN_AVATAR_SUFFIX, user.getMavatarSuffix());
+        values.put(UserDao.USER_COLUMN_AVATAR_LASTUPDATE_TIME, user.getMavatarLastUpdateTime());
         if (db.isOpen()) {
             return db.replace(UserDao.USER_TABLE_NAME, null, values) != -1;
         }
         return false;
     }
-    public User getUser(String username) {
-        SQLiteDatabase db = dbHepler.getReadableDatabase();
-        String sql = "select*from " + UserDao.USER_TABLE_NAME + " where "
-                + UserDao.USER_COLUMN_NAME + " =?";
+
+    public synchronized User getUser(String userName) {
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        String sql = "select * from " + UserDao.USER_TABLE_NAME + " where " +
+                UserDao.USER_COLUMN_NAME + " =?";
         User user = null;
-        Cursor cursor = db.rawQuery(sql, new String[]{username});
+        Cursor cursor = db.rawQuery(sql, new String[]{userName});
         if (cursor.moveToNext()) {
             user = new User();
-            user.setMuserName(username);
-            user.setMuserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NICK)));
+            user.setMuserName(userName);
             user.setMavatarId(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_ID)));
-            user.setMavatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
+            user.setMavatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LASTUPDATE_TIME)));
             user.setMavatarPath(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_PATH)));
             user.setMavatarSuffix(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_SUFFIX)));
-            user.setMavatarLastUpdateTime(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_LASTUDATE_TIME)));
+            user.setMavatarType(cursor.getInt(cursor.getColumnIndex(UserDao.USER_COLUMN_AVATAR_TYPE)));
+            user.setMuserNick(cursor.getString(cursor.getColumnIndex(UserDao.USER_COLUMN_NICK)));
             return user;
         }
         return user;
     }
-    public boolean updateUser(User user) {
+
+    public synchronized boolean updateUser(User user) {
         int resule = -1;
-        SQLiteDatabase db = dbHepler.getWritableDatabase();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         String sql = UserDao.USER_COLUMN_NAME + "=?";
         ContentValues values = new ContentValues();
-        values.put(UserDao.USER_COLUMN_NICK,user.getMuserNick());
+        values.put(UserDao.USER_COLUMN_NICK, user.getMuserNick());
         if (db.isOpen()) {
             resule = db.update(UserDao.USER_TABLE_NAME, values, sql, new String[]{user.getMuserName()});
         }
-        return resule>0;
+        return resule > 0;
     }
+
+
+
 }
