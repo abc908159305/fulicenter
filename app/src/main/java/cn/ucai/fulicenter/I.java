@@ -422,6 +422,6 @@ public interface I {
     /**
      * 下载个人中心头像
      */
-    String DOWNLOAD_AVATAR_URL = I.SERVER_ROOT +
+    String DOWNLOAD_AVATAR_URI = I.SERVER_ROOT +
             REQUEST_DOWNLOAD_AVATAR + I.QUESTION;
 }
