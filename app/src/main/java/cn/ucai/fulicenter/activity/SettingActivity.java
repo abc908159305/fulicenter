@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -12,6 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
+import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.dao.SharePrefrenceUtils;
@@ -44,15 +46,17 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         mtvSystemTitle.setText("设置");
-        user = FuLiCenterApplication.getUser();
-        ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivUserAvatar);//设置头像
-        mivUserNick.setText(user.getMuserNick());//昵称
-        mivUserName.setText(user.getMuserName());//用户名
+
     }
 
     @Override
     protected void initData() {
-
+        user = FuLiCenterApplication.getUser();
+        if (user == null) {
+            finish();
+            return;
+        }
+        showInfo();
     }
 
     @Override
@@ -76,8 +80,30 @@ public class SettingActivity extends BaseActivity {
                 CommonUtils.showShortToast("用户名不能修改哟");
                 break;
             case R.id.UserNick_Layout:
-
+                MFGT.startActivityForResult(mContext,new Intent(mContext,UpDateNickActivity.class), I.REQUEST_CODE_UPDATE_NICK);
                 break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showInfo();
+    }
+    private void showInfo() {
+        user = FuLiCenterApplication.getUser();
+        if (user != null) {
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mivUserAvatar);//设置头像
+            mivUserNick.setText(user.getMuserNick());//昵称
+            mivUserName.setText(user.getMuserName());//用户名
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == I.REQUEST_CODE_UPDATE_NICK) {
+            CommonUtils.showLongToast("修改成功哦");
         }
     }
 
