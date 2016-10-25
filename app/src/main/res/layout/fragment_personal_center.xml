@@ -8,18 +8,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="180dp"
         android:background="#f47451"
         android:orientation="vertical"
         >
         <RelativeLayout
             android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="20dp">
             <ImageView
                 android:id="@+id/ivMessage"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/tb_icon_more_msg_white_56"
                 android:layout_alignParentRight="true"
                 />
@@ -28,14 +28,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="设置"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="@color/white"
                 android:layout_toLeftOf="@id/ivMessage"
                 android:layout_marginRight="20dp"
                 />
         </RelativeLayout>
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -45,31 +45,31 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/icon_account"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 />
             <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="恋上女友的猫"
-                android:textSize="22dp"
+                android:textSize="20dp"
                 android:textColor="@color/white"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
                 />
             <ImageView
                 android:id="@+id/ivqrCode"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/tb_icon_home_qrcode_gray"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
                 />
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:background="#ce7430"
             >
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="180"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvCollectGoodsHint"
                     android:text="收藏的宝贝"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="58"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvCollectGoodsHint"
                     android:text="收藏的宝贝"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="28"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvCollectGoodsHint"
                     android:text="收藏的宝贝"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/white"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的订单"
-            android:textSize="22dp"
+            android:textSize="18dp"
             android:textColor="@color/black"
             android:layout_marginLeft="10dp"
             />
@@ -183,8 +183,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看全部已购买宝贝"
-            android:textSize="20dp"
-            android:layout_marginLeft="100dp"
+            android:textSize="15dp"
+            android:layout_marginLeft="80dp"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/right_arrow_icon"
             />
@@ -229,14 +229,14 @@
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:gravity="center_vertical"
         android:background="#ffffff">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="我的卡卷包"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
             />
@@ -244,7 +244,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/right_arrow_icon"
-            android:layout_marginLeft="250dp"
+            android:layout_marginLeft="170dp"
             />
     </LinearLayout>
     <LinearLayout
@@ -263,7 +263,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="生活卷"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
             />
@@ -290,7 +290,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="网店卷"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
             />
@@ -317,7 +317,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="会员卡"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"
             />
