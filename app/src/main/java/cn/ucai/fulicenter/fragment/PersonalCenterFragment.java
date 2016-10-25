@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
+import cn.ucai.fulicenter.activity.SettingActivity;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.L;
@@ -68,5 +69,6 @@ public class PersonalCenterFragment extends BaseFragment {
 
     @OnClick(R.id.tvSetting)
     public void onClick() {
+        MFGT.startActivity(mContext, SettingActivity.class);
     }
 }
