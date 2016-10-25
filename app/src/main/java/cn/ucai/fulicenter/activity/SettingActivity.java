@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,6 +15,7 @@ import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.dao.SharePrefrenceUtils;
+import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.MFGT;
 
@@ -31,6 +32,7 @@ public class SettingActivity extends BaseActivity {
 
 
     SettingActivity mContext;
+    User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_setting);
@@ -42,7 +44,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         mtvSystemTitle.setText("设置");
-        User user = FuLiCenterApplication.getUser();
+        user = FuLiCenterApplication.getUser();
         ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivUserAvatar);//设置头像
         mivUserNick.setText(user.getMuserNick());//昵称
         mivUserName.setText(user.getMuserName());//用户名
@@ -58,7 +60,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ivBack, R.id.btnCancel})
+    @OnClick({R.id.ivBack, R.id.btnCancel,R.id.Avatar_Layout,R.id.UserName_Layout,R.id.UserNick_Layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ivBack:
@@ -66,6 +68,15 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.btnCancel:
                 cancel();
+                break;
+            case R.id.Avatar_Layout:
+
+                break;
+            case R.id.UserName_Layout:
+                CommonUtils.showShortToast("用户名不能修改哟");
+                break;
+            case R.id.UserNick_Layout:
+
                 break;
         }
     }
@@ -83,9 +94,12 @@ public class SettingActivity extends BaseActivity {
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                SharePrefrenceUtils.getInstence(mContext).removeUser();
-                FuLiCenterApplication.setUser(null);
-                MFGT.gotoLogin(mContext);
+                if (user != null) {
+                    SharePrefrenceUtils.getInstence(mContext).removeUser();
+                    FuLiCenterApplication.setUser(null);
+                    MFGT.gotoLogin(mContext);
+                }
+                finish();
             }
         });
         builder.show();

@@ -119,7 +119,7 @@ public class LoginActivity extends BaseActivity {
                 });
                 break;
             case R.id.btnRegister:
-                MFGT.gotoRegister((Activity) mContext);
+                MFGT.gotoRegister(mContext);
                 break;
         }
     }
@@ -130,5 +130,10 @@ public class LoginActivity extends BaseActivity {
             String name = data.getStringExtra(I.User.USER_NAME);
             mLoginEdName.setText(name);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        MFGT.finish(this);
     }
 }

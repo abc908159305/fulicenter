@@ -57,6 +57,16 @@ public class PersonalCenterFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        User user = FuLiCenterApplication.getUser();
+        if (user != null) {
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivPicture);
+            mtvUserName.setText(user.getMuserNick());
+        }
+    }
+
+    @Override
     protected void setListener() {
 
     }
