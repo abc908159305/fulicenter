@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.utils.OnSetAvatarListener;
 import cn.ucai.fulicenter.utils.ResultUtils;
@@ -129,16 +131,39 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void updateAvatar() {
-        File file = OnSetAvatarListener.getAvatarFile(mContext, user.getMuserName());
+        File file = new File(OnSetAvatarListener.getAvatarPath(mContext,
+                user.getMavatarPath()+"/"+user.getMuserName()+
+                        I.AVATAR_SUFFIX_JPG));
+        L.e("main","file="+file.exists());
+        L.e("file="+file.getAbsolutePath());
+        final ProgressDialog pd = new ProgressDialog(mContext);
+        pd.setMessage("更新头像中");
+        pd.show();
         NetDao.updateAvatar(mContext, user.getMuserName(), file, new OkHttpUtils.OnCompleteListener<String>() {
             @Override
             public void onSuccess(String s) {
-                ResultUtils.getResultFromJson(s, User.class);
+                L.e("s="+s);
+                Result result = ResultUtils.getResultFromJson(s, User.class);
+                L.e("result="+result);
+                if (result == null) {
+                    CommonUtils.showLongToast("更新失败");
+                } else {
+                    User u = (User) result.getRetData();
+                    if (result.isRetMsg()) {
+                        FuLiCenterApplication.setUser(u);
+                        ImageLoader.setAvatar(ImageLoader.getAvatarUrl(u), mContext, mivUserAvatar);
+                        CommonUtils.showLongToast("更新成功");
+                    } else {
+                        CommonUtils.showLongToast("更新失败");
+                    }
+                }
+                pd.dismiss();
             }
 
             @Override
             public void onError(String error) {
-
+                pd.dismiss();
+                L.e("error="+error);
             }
         });
     }
