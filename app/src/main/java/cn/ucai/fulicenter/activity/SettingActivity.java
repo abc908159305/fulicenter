@@ -9,17 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.dao.SharePrefrenceUtils;
+import cn.ucai.fulicenter.net.NetDao;
+import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.MFGT;
+import cn.ucai.fulicenter.utils.OnSetAvatarListener;
+import cn.ucai.fulicenter.utils.ResultUtils;
 
 public class SettingActivity extends BaseActivity {
 
@@ -35,6 +42,7 @@ public class SettingActivity extends BaseActivity {
 
     SettingActivity mContext;
     User user;
+    OnSetAvatarListener mOnSetAvatarListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_setting);
@@ -74,6 +82,9 @@ public class SettingActivity extends BaseActivity {
                 cancel();
                 break;
             case R.id.Avatar_Layout:
+                //上传头像
+                mOnSetAvatarListener = new OnSetAvatarListener(mContext, R.id.layout_upload_avatar,
+                        user.getMuserName(), I.AVATAR_TYPE_USER_PATH);
 
                 break;
             case R.id.UserName_Layout:
@@ -105,6 +116,31 @@ public class SettingActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == I.REQUEST_CODE_UPDATE_NICK) {
             CommonUtils.showLongToast("修改成功哦");
         }
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        mOnSetAvatarListener.setAvatar(requestCode,data,mivUserAvatar);
+        if (requestCode == I.REQUEST_CODE_UPDATE_NICK) {
+            CommonUtils.showLongToast("更改头像成功哟");
+        }
+        if (requestCode == OnSetAvatarListener.REQUEST_CROP_PHOTO) {
+            updateAvatar();
+        }
+    }
+
+    private void updateAvatar() {
+        File file = OnSetAvatarListener.getAvatarFile(mContext, user.getMuserName());
+        NetDao.updateAvatar(mContext, user.getMuserName(), file, new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                ResultUtils.getResultFromJson(s, User.class);
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 
     private void cancel() {

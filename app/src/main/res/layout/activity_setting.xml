@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#cfc7c7"
     android:orientation="vertical"
+    android:id="@+id/layout_upload_avatar"
     >
     <include layout="@layout/dock_system"/>
     <RelativeLayout
