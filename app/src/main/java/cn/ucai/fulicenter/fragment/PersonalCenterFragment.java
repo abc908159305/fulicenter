@@ -33,8 +33,8 @@ public class PersonalCenterFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_personal_center, container, false);
         mContext = (MainActivity) getActivity();
-        super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, layout);
+        super.onCreateView(inflater, container, savedInstanceState);
         return layout;
     }
 
