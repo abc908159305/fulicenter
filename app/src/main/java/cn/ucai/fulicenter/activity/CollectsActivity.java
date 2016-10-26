@@ -1,64 +1,57 @@
-package cn.ucai.fulicenter.fragment;
-
+package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
-import cn.ucai.fulicenter.activity.MainActivity;
-import cn.ucai.fulicenter.adapter.GoodsAdapter;
-import cn.ucai.fulicenter.bean.NewGoodsBean;
+import cn.ucai.fulicenter.adapter.CollectsAdapter;
+import cn.ucai.fulicenter.bean.CollectBean;
+import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ConvertUtils;
 import cn.ucai.fulicenter.utils.L;
+import cn.ucai.fulicenter.view.DisplayUtils;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
 
+public class CollectsActivity extends BaseActivity {
 
-public class NewGoodsFragment extends BaseFragment {
-
-    @Bind(R.id.srl)
-    SwipeRefreshLayout msrl;
     @Bind(R.id.refresh)
     TextView mrefresh;
     @Bind(R.id.rv)
     RecyclerView mrv;
+    @Bind(R.id.srl)
+    SwipeRefreshLayout msrl;
 
-    MainActivity mContext;
-    GoodsAdapter mAdapter;
-    ArrayList<NewGoodsBean> mList;
+    CollectsAdapter mAdapter;
+    ArrayList<CollectBean> mList;
     GridLayoutManager glm;
     int pageId = 1;
-    public NewGoodsFragment() {
-    }
-
-
+    CollectsActivity mContext;
+    User user = null;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_new_goods, container, false);
-        ButterKnife.bind(this, layout);
-        mContext = (MainActivity) getContext();
+    protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_collects);
+        ButterKnife.bind(this);
+        mContext = this;
         mList = new ArrayList<>();
-        mAdapter = new GoodsAdapter(mContext, mList);
-        super.onCreateView(inflater, container, savedInstanceState);
-        return layout;
+        mAdapter = new CollectsAdapter(mContext, mList);
+        super.onCreate(savedInstanceState);
     }
+
     @Override
-    protected  void setListener() {
+    protected void setListener() {
         setPullUpListener();
         setPullDownListener();
     }
@@ -70,22 +63,21 @@ public class NewGoodsFragment extends BaseFragment {
                 msrl.setRefreshing(true);
                 mrefresh.setVisibility(View.VISIBLE);
                 pageId = 1;
-                downloadNewGoods(I.ACTION_PULL_DOWN);
+                downloadCollects(I.ACTION_PULL_DOWN);
             }
         });
     }
 
-    private void downloadNewGoods(final int action) {
-        NetDao.downloadNewGoods(mContext,I.CAT_ID, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+    private void downloadCollects(final int action) {
+
+        NetDao.downloadCollects(mContext,user.getMuserName(), pageId, new OkHttpUtils.OnCompleteListener<CollectBean[]>() {
             @Override
-            public void onSuccess(NewGoodsBean[] result) {
-                if (result != null && result.length > 0) {
+            public void onSuccess(CollectBean[] result) {
                     msrl.setRefreshing(false);
-                    mrefresh.setVisibility(View.GONE);
                     mAdapter.setMore(true);
-                    L.e("result="+result);
+                    mrefresh.setVisibility(View.GONE);
                     if (result != null && result.length > 0) {
-                        ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
+                        ArrayList<CollectBean> list = ConvertUtils.array2List(result);
                         if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
                             mAdapter.initData(list);
                         } else {
@@ -94,18 +86,17 @@ public class NewGoodsFragment extends BaseFragment {
                         if (list.size() < I.PAGE_SIZE_DEFAULT) {
                             mAdapter.setMore(false);
                         }
-                    }else {
+                    } else {
                         mAdapter.setMore(false);
                     }
                 }
-            }
 
             @Override
             public void onError(String error) {
                 msrl.setRefreshing(false);
                 mrefresh.setVisibility(View.GONE);
                 CommonUtils.showShortToast(error);
-                L.e("error"+error);
+                L.e("error" + error);
             }
         });
     }
@@ -120,7 +111,7 @@ public class NewGoodsFragment extends BaseFragment {
                         && lastposition == mAdapter.getItemCount() - 1
                         && mAdapter.isMore()) {
                     pageId++;
-                    downloadNewGoods(I.ACTION_PULL_UP);
+                    downloadCollects(I.ACTION_PULL_UP);
                 }
             }
 
@@ -130,28 +121,29 @@ public class NewGoodsFragment extends BaseFragment {
             }
         });
     }
+
     @Override
     protected void initData() {
-        downloadNewGoods(I.ACTION_DOWNLOAD);
+        user = FuLiCenterApplication.getUser();
+        if (user == null) {
+            finish();
+        }
+        downloadCollects(I.ACTION_DOWNLOAD);
     }
+
     @Override
     protected void initView() {
+        DisplayUtils.initBackWithTitle(mContext,getResources().getString(R.string.collect_title));
         msrl.setColorSchemeColors(
-                    getResources().getColor(R.color.google_blue),
-                    getResources().getColor(R.color.google_green),
-                    getResources().getColor(R.color.google_red),
-                    getResources().getColor(R.color.google_green)
-                );
+                getResources().getColor(R.color.google_blue),
+                getResources().getColor(R.color.google_green),
+                getResources().getColor(R.color.google_red),
+                getResources().getColor(R.color.google_green)
+        );
         glm = new GridLayoutManager(mContext, I.COLUM_NUM);
         mrv.setLayoutManager(glm);
         mrv.setHasFixedSize(true);
         mrv.setAdapter(mAdapter);
         mrv.addItemDecoration(new SpaceItemDecoration(12));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 }

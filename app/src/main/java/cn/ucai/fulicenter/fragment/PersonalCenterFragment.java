@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
+import cn.ucai.fulicenter.activity.CollectsActivity;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.activity.SettingActivity;
 import cn.ucai.fulicenter.bean.MessageBean;
@@ -59,11 +58,11 @@ public class PersonalCenterFragment extends BaseFragment {
     @Override
     protected void initData() {
         user = FuLiCenterApplication.getUser();
-        L.e(TAG,"user = "+user);
+        L.e(TAG, "user = " + user);
         if (user == null) {
             MFGT.gotoLogin(mContext);
         } else {
-            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivPicture);
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mivPicture);
             mtvUserName.setText(user.getMuserNick());
         }
     }
@@ -84,7 +83,7 @@ public class PersonalCenterFragment extends BaseFragment {
                         if (b) {
                             FuLiCenterApplication.setUser(u);
                             user = u;
-                            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivPicture);
+                            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mivPicture);
                             mtvUserName.setText(user.getMuserNick());
                         }
                     }
@@ -106,8 +105,8 @@ public class PersonalCenterFragment extends BaseFragment {
 
             @Override
             public void onSuccess(MessageBean result) {
-                L.e("result==="+result);
-                if (result!=null & result.isSuccess()) {
+                L.e("result===" + result);
+                if (result != null & result.isSuccess()) {
                     mtvCollectGoodsHint.setText(result.getMsg());
                 } else {
                     mtvCollectGoodsHint.setText("0");
@@ -126,7 +125,7 @@ public class PersonalCenterFragment extends BaseFragment {
         super.onResume();
         User user = FuLiCenterApplication.getUser();
         if (user != null) {
-            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivPicture);
+            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mivPicture);
             mtvUserName.setText(user.getMuserNick());
             syncUserInfo();
             syncCollectsCount();
@@ -145,7 +144,12 @@ public class PersonalCenterFragment extends BaseFragment {
     }
 
     @OnClick(R.id.tvSetting)
-    public void onClick() {
+    public void onClickSetting() {
         MFGT.startActivity(mContext, SettingActivity.class);
+    }
+
+    @OnClick(R.id.layout_collects)
+    public void onClickCollects() {
+        MFGT.startActivity(mContext, CollectsActivity.class);
     }
 }
