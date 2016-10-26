@@ -15,9 +15,14 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CollectBean;
+import cn.ucai.fulicenter.bean.MessageBean;
+import cn.ucai.fulicenter.net.NetDao;
+import cn.ucai.fulicenter.net.OkHttpUtils;
+import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
 import cn.ucai.fulicenter.utils.MFGT;
 import cn.ucai.fulicenter.view.FooterViewHolder;
@@ -68,7 +73,7 @@ public class CollectsAdapter extends Adapter<ViewHolder> {
             //图片
             ImageLoader.downloadImg(mContext, gv.ivPicture, CollectBean.getGoodsThumb());
             gv.tvgoodsName.setText(CollectBean.getGoodsName());
-            gv.layoutGoods.setTag(CollectBean.getGoodsId());
+            gv.layoutGoods.setTag(CollectBean);
         }
     }
 
@@ -117,8 +122,29 @@ public class CollectsAdapter extends Adapter<ViewHolder> {
         }
         @OnClick(R.id.layout_goods)
         public void onGoodsItemClick() {
-            int goodsId = (int) layoutGoods.getTag();
-            MFGT.gotoGoodsDetailsActivity((Activity) mContext,goodsId);
+            CollectBean goods = (CollectBean) layoutGoods.getTag();
+            MFGT.gotoGoodsDetailsActivity((Activity) mContext,goods.getGoodsId());
+        }
+        @OnClick(R.id.ivCross)
+        public void ondeleteCollect() {
+            final CollectBean goods = (CollectBean) layoutGoods.getTag();
+            String username = FuLiCenterApplication.getUser().getMuserName();
+            NetDao.deleteCollect(mContext, username, goods.getGoodsId(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                @Override
+                public void onSuccess(MessageBean result) {
+                    if (result != null && result.isSuccess()) {
+                        mList.remove(goods);
+                        notifyDataSetChanged();
+                    } else {
+                        CommonUtils.showLongToast(result!=null?result.getMsg():"删除收藏失败");
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    CommonUtils.showLongToast("删除收藏失败");
+                }
+            });
         }
     }
 
