@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -15,6 +17,7 @@ import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
 import cn.ucai.fulicenter.activity.SettingActivity;
+import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.dao.UserDao;
@@ -33,6 +36,8 @@ public class PersonalCenterFragment extends BaseFragment {
     ImageView mivPicture;
     @Bind(R.id.tvUserName)
     TextView mtvUserName;
+    @Bind(R.id.tvCollectGoodsHint)
+    TextView mtvCollectGoodsHint;
 
     User user = null;
 
@@ -93,6 +98,27 @@ public class PersonalCenterFragment extends BaseFragment {
         });
     }
 
+    /**
+     * 获取用户收藏数量的方法
+     */
+    private void syncCollectsCount() {
+        NetDao.getCollectsCount(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+            @Override
+            public void onSuccess(MessageBean result) {
+                if (result != null && result.isSuccess()) {
+                    mtvCollectGoodsHint.setText(result.getMsg());
+                } else {
+                    mtvCollectGoodsHint.setText("0");
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -101,6 +127,7 @@ public class PersonalCenterFragment extends BaseFragment {
             ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user),mContext,mivPicture);
             mtvUserName.setText(user.getMuserNick());
             syncUserInfo();
+            syncCollectsCount();
         }
     }
 
