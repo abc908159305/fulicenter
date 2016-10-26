@@ -103,9 +103,11 @@ public class PersonalCenterFragment extends BaseFragment {
      */
     private void syncCollectsCount() {
         NetDao.getCollectsCount(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<MessageBean>() {
+
             @Override
             public void onSuccess(MessageBean result) {
-                if (result != null && result.isSuccess()) {
+                L.e("result==="+result);
+                if (result!=null & result.isSuccess()) {
                     mtvCollectGoodsHint.setText(result.getMsg());
                 } else {
                     mtvCollectGoodsHint.setText("0");

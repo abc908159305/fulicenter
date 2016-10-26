@@ -117,8 +117,8 @@ public class NetDao {
                 .execute(listener);
     }
 
-    public static void getCollectsCount(Context conetxt, String username, OkHttpUtils.OnCompleteListener<MessageBean> listener) {
-        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(conetxt);
+    public static void getCollectsCount(Context context, String username, OkHttpUtils.OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
         utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
                 .addParam(I.Collect.USER_NAME,username)
                 .targetClass(MessageBean.class)
