@@ -121,7 +121,9 @@ public class SettingActivity extends BaseActivity {
         if (resultCode != RESULT_OK) {
             return;
         }
-        mOnSetAvatarListener.setAvatar(requestCode,data,mivUserAvatar);
+        if (mOnSetAvatarListener != null) {
+            mOnSetAvatarListener.setAvatar(requestCode,data,mivUserAvatar);
+        }
         if (requestCode == I.REQUEST_CODE_UPDATE_NICK) {
             CommonUtils.showLongToast("更改头像成功哟");
         }
