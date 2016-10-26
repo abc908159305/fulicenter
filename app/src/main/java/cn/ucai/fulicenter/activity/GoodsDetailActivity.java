@@ -1,9 +1,11 @@
 package cn.ucai.fulicenter.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -171,9 +173,49 @@ public class GoodsDetailActivity extends BaseActivity {
     public void onBackOnClick() {
         MFGT.finish(this);
     }
+    @OnClick(R.id.iv_collect_in)
+    public void onCollectClick() {
+        User user = FuLiCenterApplication.getUser();
+        if (user == null) {
+            MFGT.gotoLogin((Activity) mContext);
+        } else {
+            if (isCollect) {
+                NetDao.deleteCollect(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            isCollect = !isCollect;
+                            updateGoodsCollectStatus();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            } else {
+                NetDao.addCollect(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            isCollect = !isCollect;
+                            updateGoodsCollectStatus();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {
         MFGT.finish(this);
     }
+
 }
