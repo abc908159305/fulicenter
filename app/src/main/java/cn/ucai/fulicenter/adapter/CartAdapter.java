@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.GoodsDetailsBean;
 import cn.ucai.fulicenter.utils.ImageLoader;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -39,11 +40,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(CartViewHolder holder, int position) {
         CartBean cartBean = mList.get(position);
-/*        holder.mtvBoutiqueTtile.setText(boutiqueBean.getTitle());
-        holder.mtvBoutiqueName.setText(boutiqueBean.getName());
-        holder.mtvBoutiqueDescription.setText(boutiqueBean.getDescription());
-        ImageLoader.downloadImg(mContext, holder.mivBoutiqueImg, boutiqueBean.getImageurl());
-        holder.mitem_Bourique_Layout.setTag(boutiqueBean);*/
+        GoodsDetailsBean goods = cartBean.getGoods();
+        if (goods != null) {
+            ImageLoader.downloadImg(mContext,holder.ivCartThumb,goods.getGoodsThumb());
+            holder.tvCartGoodName.setText(goods.getGoodsName());
+            holder.tvCartPrice.setText(goods.getCurrencyPrice());
+        }
+        holder.tvCartCount.setText("("+cartBean.getCount()+")");
+        holder.cdCartSelected.setChecked(false);
     }
 
     @Override
