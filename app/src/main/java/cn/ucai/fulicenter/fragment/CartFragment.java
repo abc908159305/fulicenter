@@ -152,5 +152,25 @@ public class CartFragment extends BaseFragment {
         layoutCart.setVisibility(hasCart?View.VISIBLE:View.GONE);
         tvNothing.setVisibility(hasCart?View.GONE:View.VISIBLE);
         mrv.setVisibility(hasCart?View.VISIBLE:View.GONE);
+        sumPrice();
+    }
+    private void sumPrice() {
+        int sumPrice = 0;
+        int rankPrice = 0;
+        if (mList != null && mList.size() > 0) {
+            for (CartBean c : mList) {
+                sumPrice += getPrice(c.getGoods().getCurrencyPrice())*c.getCount();
+                rankPrice += getPrice(c.getGoods().getRankPrice())*c.getCount();
+            }
+            tvCartSumPrice.setText("合计：￥"+Double.valueOf(sumPrice));
+            tvCartSavePrice.setText("节省：￥"+Double.valueOf(rankPrice));
+        } else {
+            tvCartSumPrice.setText("合计：￥0");
+            tvCartSavePrice.setText("节省：￥0");
+        }
+    }
+    private int getPrice(String price) {
+        price = price.substring(price.indexOf("￥") + 1);
+        return Integer.valueOf(price);
     }
 }
