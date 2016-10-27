@@ -10,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.ucai.fulicenter.FuLiCenterApplication;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.activity.MainActivity;
@@ -25,7 +27,6 @@ import cn.ucai.fulicenter.bean.User;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.CommonUtils;
-import cn.ucai.fulicenter.utils.ConvertUtils;
 import cn.ucai.fulicenter.utils.L;
 import cn.ucai.fulicenter.utils.ResultUtils;
 import cn.ucai.fulicenter.view.SpaceItemDecoration;
@@ -33,7 +34,7 @@ import cn.ucai.fulicenter.view.SpaceItemDecoration;
 /**
  * Created by Administrator on 2016/10/19.
  */
-public class CartFragment extends BaseFragment{
+public class CartFragment extends BaseFragment {
 
     @Bind(R.id.refresh)
     TextView mrefresh;
@@ -46,22 +47,28 @@ public class CartFragment extends BaseFragment{
     MainActivity mContext;
     CartAdapter mAdapter;
     ArrayList<CartBean> mList;
+    @Bind(R.id.tv_nothing)
+    TextView tvNothing;
+    @Bind(R.id.tv_cart_sum_price)
+    TextView tvCartSumPrice;
+    @Bind(R.id.tv_cart_save_price)
+    TextView tvCartSavePrice;
+    @Bind(R.id.layout_cart)
+    RelativeLayout layoutCart;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View inflate = inflater.inflate(R.layout.fragment_new_goods, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_cart, container, false);
         ButterKnife.bind(this, inflate);
         mContext = (MainActivity) getContext();
         mList = new ArrayList<>();
         mAdapter = new CartAdapter(mContext, mList);
-        super.onCreateView(inflater,container,savedInstanceState);
-/*        initView();
-        initData();
-        Listener();*/
+        super.onCreateView(inflater, container, savedInstanceState);
         return inflate;
     }
+
     @Override
     protected void setListener() {
         setPullDownListener();
@@ -77,6 +84,7 @@ public class CartFragment extends BaseFragment{
             }
         });
     }
+
     @Override
     protected void initData() {
         downloadCart();
@@ -85,29 +93,35 @@ public class CartFragment extends BaseFragment{
     private void downloadCart() {
         User user = FuLiCenterApplication.getUser();
         if (user != null) {
-            NetDao.downloadCart(mContext,user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
+            NetDao.downloadCart(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
                 @Override
                 public void onSuccess(String s) {
                     ArrayList<CartBean> list = ResultUtils.getCartFromJson(s);
-                    L.e("list="+list);
+                    L.e("list=" + list);
                     msrl.setRefreshing(false);
                     mrefresh.setVisibility(View.GONE);
                     if (list != null && list.size() > 0) {
-                        L.e("list[0]="+list.get(0));
+                        L.e("list[0]=" + list.get(0));
                         mAdapter.initData(list);
+                        setCartLayout(true);
+                    } else {
+                        setCartLayout(false);
                     }
                 }
+
                 @Override
                 public void onError(String error) {
+                    setCartLayout(false);
                     msrl.setRefreshing(false);
                     mrefresh.setVisibility(View.GONE);
                     CommonUtils.showShortToast(error);
-                    L.e("error"+error);
+                    L.e("error" + error);
                 }
             });
 
         }
     }
+
     @Override
     protected void initView() {
         msrl.setColorSchemeColors(
@@ -121,11 +135,22 @@ public class CartFragment extends BaseFragment{
         mrv.setHasFixedSize(true);
         mrv.setAdapter(mAdapter);
         mrv.addItemDecoration(new SpaceItemDecoration(12));
+        setCartLayout(false);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.tv_cart_buy)
+    public void onClick() {
+    }
+
+    public void setCartLayout(boolean hasCart) {
+        layoutCart.setVisibility(hasCart?View.VISIBLE:View.GONE);
+        tvNothing.setVisibility(hasCart?View.GONE:View.VISIBLE);
+        mrv.setVisibility(hasCart?View.VISIBLE:View.GONE);
     }
 }
