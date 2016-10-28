@@ -1,6 +1,7 @@
 package cn.ucai.fulicenter.adapter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import cn.ucai.fulicenter.bean.MessageBean;
 import cn.ucai.fulicenter.net.NetDao;
 import cn.ucai.fulicenter.net.OkHttpUtils;
 import cn.ucai.fulicenter.utils.ImageLoader;
+import cn.ucai.fulicenter.utils.MFGT;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     Context mContext;
@@ -152,7 +154,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                         }
                     });
             }
-
+        }
+        @OnClick({R.id.tv_cart_good_name,R.id.iv_cart_thumb,R.id.tv_cart_price})
+        public void gotoDetail() {
+            final int position = (int) ivCartAdd.getTag();
+            CartBean cart = mList.get(position);
+            MFGT.gotoGoodsDetailsActivity((Activity) mContext,cart.getGoodsId());
         }
     }
 }
