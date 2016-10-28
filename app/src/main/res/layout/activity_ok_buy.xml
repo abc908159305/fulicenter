@@ -24,6 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请填写收货人姓名"
+            android:background="@null"
+            android:singleLine="true"
             />
     </LinearLayout>
     <LinearLayout
@@ -44,6 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请填写号码"
+            android:singleLine="true"
+            android:inputType="phone"
             />
     </LinearLayout>
     <LinearLayout
@@ -60,6 +64,7 @@
             android:textSize="20dp"
             />
         <Spinner
+            android:id="@+id/sp_City"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/area"
@@ -83,23 +88,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请填写地址"
+            android:singleLine="true"
             />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/tv_Total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="合计：￥0"
-            android:layout_toLeftOf="@id/btn_OkBuy"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            android:layout_alignTop="@+id/btn_OkBuy"
             android:textColor="@color/red"
             android:gravity="center_vertical"
             android:textSize="15sp"
-            />
+            android:layout_alignTop="@+id/btn_OkBuy"
+            android:layout_toStartOf="@+id/btn_OkBuy" />
         <Button
             android:id="@+id/btn_OkBuy"
             android:layout_width="100dp"
