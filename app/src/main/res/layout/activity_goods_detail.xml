@@ -41,6 +41,7 @@
                 android:background="@drawable/cart_hint"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
+                android:visibility="gone"
                 />
             <ImageView
                 android:id="@+id/iv_collect"
