@@ -46,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请填写号码"
+            android:background="@null"
             android:singleLine="true"
             android:inputType="phone"
             />
@@ -88,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="请填写地址"
+            android:background="@null"
             android:singleLine="true"
             />
     </LinearLayout>
