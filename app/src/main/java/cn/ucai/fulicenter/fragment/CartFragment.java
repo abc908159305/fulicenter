@@ -150,6 +150,12 @@ public class CartFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        downloadCart();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);

@@ -45,7 +45,7 @@ public class GoodsDetailActivity extends BaseActivity {
     FlowIndicator mindicator;
     @Bind(R.id.wv_good_brief)
     WebView mwvGoodBrief;
-    boolean isCollect = false;
+    boolean isCollect = false;//是否收藏
 
     int goodsId;
     Context mContext;
@@ -256,12 +256,14 @@ public class GoodsDetailActivity extends BaseActivity {
                 public void onSuccess(MessageBean result) {
                     if (result != null && result.isSuccess()) {
                         CommonUtils.showShortToast("添加购物车成功");
+                    } else {
+                        CommonUtils.showShortToast("添加购物车失败");
                     }
                 }
 
                 @Override
                 public void onError(String error) {
-
+                    CommonUtils.showShortToast("添加购物车失败");
                 }
             });
         }
