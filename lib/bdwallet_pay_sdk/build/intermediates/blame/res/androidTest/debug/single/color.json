@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "F:\\work\\fulicenter\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\wallet_base_dialog_btntext_color_selector.xml",
+        "source": "F:\\work\\fulicenter\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\color\\wallet_base_dialog_btntext_color_selector.xml"
+    },
+    {
+        "merged": "F:\\work\\fulicenter\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\wallet_base_click_text_color.xml",
+        "source": "F:\\work\\fulicenter\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\color\\wallet_base_click_text_color.xml"
+    },
+    {
+        "merged": "F:\\Users\\clawpo\\github\\pingpp-android\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\wallet_base_click_text_color.xml",
+        "source": "F:\\Users\\clawpo\\github\\pingpp-android\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\color\\wallet_base_click_text_color.xml"
+    },
+    {
+        "merged": "F:\\Users\\clawpo\\github\\pingpp-android\\lib\\bdwallet_pay_sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\wallet_base_dialog_btntext_color_selector.xml",
+        "source": "F:\\Users\\clawpo\\github\\pingpp-android\\lib\\bdwallet_pay_sdk\\build\\intermediates\\bundles\\debug\\res\\color\\wallet_base_dialog_btntext_color_selector.xml"
+    }
+]
